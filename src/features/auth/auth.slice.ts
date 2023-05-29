@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   ArgLoginType,
   ArgRegisterType,
+  ArgsForgotType,
   authApi,
   ProfileType,
 } from "features/auth/auth.api";
@@ -23,6 +24,13 @@ const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
   }
 );
 
+const forgot = createAppAsyncThunk(
+  "auth/forgot",
+  async (args: ArgsForgotType) => {
+    const res = await authApi.forgot(args);
+  }
+);
+
 const slice = createSlice({
   name: "auth",
   initialState: {
@@ -37,4 +45,4 @@ const slice = createSlice({
 });
 
 export const authReducer = slice.reducer;
-export const authThunks = { register, login };
+export const authThunks = { register, login, forgot };

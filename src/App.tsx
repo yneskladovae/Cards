@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import { AppBar, Button, IconButton, Typography } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
+import { Forgot } from "./features/auth/forgot/Forgot";
 
 function App() {
   const isLoading = useAppSelector((state) => state.app.isLoading);
@@ -41,6 +42,7 @@ function App() {
       <Routes>
         <Route path={"register"} element={<Register />} />
         <Route path={"login"} element={<Login />} />
+        <Route path={"forgot"} element={<Forgot />} />
         <Route path={"*"} element={<Login />} />
       </Routes>
     </Box>
