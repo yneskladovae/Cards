@@ -1,6 +1,7 @@
 import { authThunks } from "features/auth/auth.slice";
 import { useAppDispatch } from "app/hooks";
 import { SubmitHandler, useForm } from "react-hook-form";
+import React from "react";
 
 type Inputs = {
   email: string;
@@ -28,11 +29,14 @@ export const Register = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => registerHandler(data);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input {...register("email", { required: true })} />
-      <input {...register("password", { required: true, maxLength: 20 })} />
-      {errors.email && errors.password && <span>This field is required</span>}
-      <input type="submit" />
-    </form>
+    <>
+      <h2>Sign up</h2>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input {...register("email", { required: true })} />
+        <input {...register("password", { required: true, maxLength: 20 })} />
+        {errors.email && errors.password && <span>This field is required</span>}
+        <input type="submit" />
+      </form>
+    </>
   );
 };

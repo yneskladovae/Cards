@@ -6,6 +6,9 @@ export const authApi = {
   login: (arg: ArgLoginType) => {
     return instance.post<ProfileType>("auth/login", arg);
   },
+  forgot: (arg: ArgLoginType) => {
+    return instance.post<ProfileType>("auth/login", arg);
+  },
 };
 
 type RegisterResponseType = {
