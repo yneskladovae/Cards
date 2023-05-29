@@ -5,6 +5,10 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import { appActions } from "app/app.slice";
 import { Register } from "features/auth/register/Register";
 import Login from "features/auth/login/Login";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import { AppBar, Button, IconButton, Typography } from "@mui/material";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   const isLoading = useAppSelector((state) => state.app.isLoading);
@@ -18,12 +22,28 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div>
-      {isLoading && <h1>Loader...</h1>}
-      <Counter />
-      <Register />
-      <Login />
-    </div>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          ></IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            LOGO
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
+      <Routes>
+        <Route path={"register"} element={<Register />} />
+        <Route path={"login"} element={<Login />} />
+        <Route path={"*"} element={<Login />} />
+      </Routes>
+    </Box>
   );
 }
 
