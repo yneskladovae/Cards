@@ -6,8 +6,8 @@ export const authApi = {
     return instance.post<RegisterResponseType>("auth/register", arg);
   },
   login: (arg: ArgLoginType) => {
-    return axios.post<ProfileType>(
-      "https://neko-back.herokuapp.com/2.0/auth/login",
+    return instance.post<ProfileType>(
+      "auth/login",
       arg
     );
   },

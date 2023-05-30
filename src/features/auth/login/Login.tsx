@@ -8,6 +8,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import {NavLink} from "react-router-dom";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -41,10 +42,6 @@ const Login = () => {
       <div className={s.registerBlockContainer}>
         <h2>Sign in</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/*<input {...register("email", { required: true })} />*/}
-          {/*<input*/}
-          {/*  {...register("password", { required: true, maxLength: 20 })}*/}
-          {/*/>*/}
           <div className={s.email}>
             <TextField
               {...register("email", { required: true })}
@@ -59,6 +56,7 @@ const Login = () => {
               id="register-password"
               label="Password"
               variant="standard"
+              type={'password'}
             />
           </div>
           <label className={s.checkbox}>
@@ -68,7 +66,7 @@ const Login = () => {
             />
             Remember me
           </label>
-          <p className={s.forgot}>Forgot Password?</p>
+          <NavLink className={s.forgot} to={'/forgot'}>Forgot Password?</NavLink>
           {errors.email && errors.password && (
             <span>This field is required</span>
           )}
@@ -86,7 +84,7 @@ const Login = () => {
           </Button>
           {/*<input type="submit" />*/}
           <p>Don't have an account?</p>
-          <a href="#">Sign Up</a>
+          <NavLink to={'/register'}>Sign Up</NavLink>
         </form>
       </div>
     </div>

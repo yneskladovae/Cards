@@ -32,10 +32,13 @@ input[type="checkbox"] {
 }
 
 .forgot {
+    display: block;
     text-align: right;
     margin: 0 0 20px 0;
     font-size: 14px;
     line-height: 17px;
+    text-decoration: none;
+    color: black;
 }
 
 .email input, .password input {
