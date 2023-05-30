@@ -82,7 +82,6 @@ const Login = () => {
           {/*<input type="submit" />*/}
           <p>Don't have an account?</p>
           <NavLink to={'/register'}>Sign Up</NavLink>
-          {/*123*/}
         </form>
       </div>
     </div>
