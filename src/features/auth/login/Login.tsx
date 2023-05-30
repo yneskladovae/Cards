@@ -28,9 +28,6 @@ const Login = () => {
   const loginHandler = (data: ArgLoginType) => {
     dispatch(
       authThunks.login({
-        // email: data.email,
-        // password: data.password,
-        // rememberMe: data.rememberMe,
         ...data,
       })
     );
@@ -85,6 +82,7 @@ const Login = () => {
           {/*<input type="submit" />*/}
           <p>Don't have an account?</p>
           <NavLink to={'/register'}>Sign Up</NavLink>
+          {/*123*/}
         </form>
       </div>
     </div>
