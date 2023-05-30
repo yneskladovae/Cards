@@ -6,7 +6,10 @@ export const authApi = {
     return instance.post<RegisterResponseType>("auth/register", arg);
   },
   login: (arg: ArgLoginType) => {
-    return instance.post<ProfileType>("auth/login", arg);
+    return axios.post<ProfileType>(
+      "https://neko-back.herokuapp.com/2.0/auth/login",
+      arg
+    );
   },
   forgot: (args: ArgsForgotType) => {
     return axios.post<ForgotResponsePasswordType>(
@@ -14,21 +17,12 @@ export const authApi = {
       args
     );
   },
-};
-
-export type ArgsForgotType = {
-  email: string;
-  from: string;
-  message: string;
-};
-
-type ForgotResponsePasswordType = {
-  info: string;
-  error: string;
-};
-
-type RegisterResponseType = {
-  addedUser: Omit<ProfileType, "token" | "tokenDeathTime">;
+  setNewPassword: (args: ArgsSetNewPasswordType) => {
+    return axios.post<SetNewPasswordResponseType>(
+      "https://neko-back.herokuapp.com/2.0/auth/set-new-password",
+      args
+    );
+  },
 };
 
 export type ProfileType = {
@@ -46,9 +40,30 @@ export type ProfileType = {
   error?: string;
 };
 
+type ForgotResponsePasswordType = {
+  info: string;
+  error: string;
+};
+type SetNewPasswordResponseType = {
+  info: string;
+  error: string;
+};
+type RegisterResponseType = {
+  addedUser: Omit<ProfileType, "token" | "tokenDeathTime">;
+};
+
 export type ArgRegisterType = Omit<ArgLoginType, "rememberMe">;
 export type ArgLoginType = {
   email: string;
   password: string;
   rememberMe: boolean;
+};
+export type ArgsForgotType = {
+  email: string;
+  from: string;
+  message: string;
+};
+export type ArgsSetNewPasswordType = {
+  password: string;
+  resetPasswordToken: string | undefined;
 };

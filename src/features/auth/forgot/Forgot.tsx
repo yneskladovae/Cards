@@ -1,7 +1,7 @@
 import React from "react";
-import { useAppDispatch } from "../../../app/hooks";
+import { useAppDispatch } from "app/hooks";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { ArgLoginType, ArgsForgotType } from "../auth.api";
+import { ArgsForgotType } from "../auth.api";
 import { authThunks } from "../auth.slice";
 
 export const Forgot = () => {
@@ -14,11 +14,11 @@ export const Forgot = () => {
   } = useForm<ArgsForgotType>({
     defaultValues: {
       email: "",
-      from: "Stas(Stanislav)",
+      from: "ddd",
       message: `
         <div style="background-color: lime; padding: 15px">
         password recovery link: 
-            <a href='http://localhost:3000/#/set-new-password/$token$'>
+            <a href='http://localhost:3000/set-new-password/$token$'>
                 link
             </a>
         </div>`,

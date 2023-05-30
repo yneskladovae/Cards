@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Counter } from "features/counter/Counter";
 import "./App.css";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { appActions } from "app/app.slice";
@@ -10,6 +9,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { AppBar, Button, IconButton, Typography } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import { Forgot } from "./features/auth/forgot/Forgot";
+import SetNewPassword from "features/auth/setNewPassword/SetNewPassword";
 
 function App() {
   const isLoading = useAppSelector((state) => state.app.isLoading);
@@ -43,6 +43,7 @@ function App() {
         <Route path={"register"} element={<Register />} />
         <Route path={"login"} element={<Login />} />
         <Route path={"forgot"} element={<Forgot />} />
+        <Route path={"set-new-password/:token"} element={<SetNewPassword />} />
         <Route path={"*"} element={<Login />} />
       </Routes>
     </Box>

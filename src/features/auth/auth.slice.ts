@@ -3,6 +3,7 @@ import {
   ArgLoginType,
   ArgRegisterType,
   ArgsForgotType,
+  ArgsSetNewPasswordType,
   authApi,
   ProfileType,
 } from "features/auth/auth.api";
@@ -31,6 +32,13 @@ const forgot = createAppAsyncThunk(
   }
 );
 
+const setNewPassword = createAppAsyncThunk(
+  "auth/set-new-password",
+  async (args: ArgsSetNewPasswordType) => {
+    const res = await authApi.setNewPassword(args);
+  }
+);
+
 const slice = createSlice({
   name: "auth",
   initialState: {
@@ -45,4 +53,4 @@ const slice = createSlice({
 });
 
 export const authReducer = slice.reducer;
-export const authThunks = { register, login, forgot };
+export const authThunks = { register, login, forgot, setNewPassword };
