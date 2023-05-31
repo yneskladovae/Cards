@@ -6,10 +6,11 @@ import { Register } from "features/auth/register/Register";
 import Login from "features/auth/login/Login";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import { AppBar, Button, IconButton, Typography } from "@mui/material";
-import { Route, Routes } from "react-router-dom";
-import { Forgot } from "./features/auth/forgot/Forgot";
+import { AppBar, Avatar, Button, IconButton, Typography } from "@mui/material";
+import { NavLink, Route, Routes } from "react-router-dom";
+import { Forgot } from "features/auth/forgot/Forgot";
 import SetNewPassword from "features/auth/setNewPassword/SetNewPassword";
+import incubatorLogo from "assets/svg/incubatorLogo.svg";
 
 function App() {
   const isLoading = useAppSelector((state) => state.app.isLoading);
@@ -24,19 +25,29 @@ function App() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          ></IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            LOGO
-          </Typography>
-          <Button color="inherit">Login</Button>
+      <AppBar position="static" sx={{ backgroundColor: "#FCFCFC" }}>
+        <Toolbar
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-around",
+          }}
+        >
+          <img className={"logo"} src={incubatorLogo} alt={"logo"} />
+          <Button
+            style={{
+              width: "113px",
+              borderRadius: "30px",
+              fontSize: "16px",
+              textAlign: "center",
+            }}
+            type="submit"
+            variant="contained"
+          >
+            <NavLink className={"login"} to={"/login"}>
+              Sign In
+            </NavLink>
+          </Button>
         </Toolbar>
       </AppBar>
       <Routes>
