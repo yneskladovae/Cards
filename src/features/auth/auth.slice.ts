@@ -12,16 +12,24 @@ import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
 const register = createAsyncThunk(
   "auth/register",
   async (arg: ArgRegisterType, thunkAPI) => {
-    const res = await authApi.register(arg);
-    return console.log(res.data);
+    try {
+      const res = await authApi.register(arg);
+      return res.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
   }
 );
 
 const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
   "auth/login",
   async (arg: ArgLoginType, thunkAPI) => {
-    const res = await authApi.login(arg);
-    return { profile: res.data };
+    try {
+      const res = await authApi.login(arg);
+      return { profile: res.data };
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
   }
 );
 
@@ -43,14 +51,41 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     profile: null as ProfileType | null,
+    isLoading: false,
+    error: "",
+    isReg: false,
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(login.fulfilled, (state, action) => {
-      state.profile = action.payload.profile;
-    });
+    builder
+      .addCase(login.fulfilled, (state, action) => {
+        state.profile = action.payload.profile;
+        state.isLoading = false;
+      })
+      .addCase(login.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = "Some error";
+      })
+
+      .addCase(register.fulfilled, (state, action) => {
+        state.isReg = true;
+        state.isLoading = false;
+      })
+      .addCase(register.pending, (state, action) => {
+        state.isReg = false;
+        state.isLoading = true;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isReg = false;
+        state.error = "Some error";
+      });
   },
 });
 
 export const authReducer = slice.reducer;
+export const authSlice = slice.actions;
 export const authThunks = { register, login, forgot, setNewPassword };
