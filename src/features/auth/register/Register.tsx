@@ -2,10 +2,15 @@ import { authThunks } from "features/auth/auth.slice";
 import { useAppDispatch } from "app/hooks";
 import { SubmitHandler, useForm } from "react-hook-form";
 import React from "react";
+import s from "features/auth/login/login.module.css";
+import TextField from "@mui/material/TextField";
+import { NavLink } from "react-router-dom";
+import Button from "@mui/material/Button";
 
 type Inputs = {
   email: string;
   password: string;
+  confirm_password: string;
 };
 export const Register = () => {
   const dispatch = useAppDispatch();
@@ -13,6 +18,7 @@ export const Register = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
@@ -29,14 +35,59 @@ export const Register = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => registerHandler(data);
 
   return (
-    <>
-      <h2>Sign up</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("email", { required: true })} />
-        <input {...register("password", { required: true, maxLength: 20 })} />
-        {errors.email && errors.password && <span>This field is required</span>}
-        <input type="submit" />
-      </form>
-    </>
+    <div className={s.registerBlock}>
+      <div className={s.registerBlockContainer}>
+        <h2>Sign up</h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={s.email}>
+            <TextField
+              {...register("email", { required: true })}
+              id="register-email"
+              label="Email"
+              variant="standard"
+            />
+          </div>
+          <div className={s.password}>
+            <TextField
+              {...register("password", { required: true, maxLength: 20 })}
+              id="register-password"
+              label="Password"
+              variant="standard"
+              type={"password"}
+            />
+          </div>
+          <div className={s.password}>
+            <TextField
+              {...register("confirm_password", {
+                required: true,
+                maxLength: 20,
+                validate: (val: string) => {
+                  if (watch("password") != val)
+                    return "Your passwords do no match";
+                },
+              })}
+              id="register-password"
+              label="Confirm password"
+              variant="standard"
+              type={"password"}
+            />
+          </div>
+          <Button
+            style={{
+              width: "100%",
+              borderRadius: "30px",
+              fontSize: "16px",
+              marginTop: "60px",
+            }}
+            type="submit"
+            variant="contained"
+          >
+            Sign Up
+          </Button>
+          <p>Already have an account?</p>
+          <NavLink to={"/login"}>Sign In</NavLink>
+        </form>
+      </div>
+    </div>
   );
 };
