@@ -1,4 +1,4 @@
-.registerBlock {
+.forgotBlock {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,23 +12,28 @@
     box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 }
 
-.registerBlockContainer {
+.forgotBlockContainer {
     max-width: 300px;
     margin: 0 auto;
 }
 
-input[type="checkbox"] {
-    margin: 0 12px 0 0;
-    height: 18px;
-    width: 18px;
+.subText {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: left;
+    opacity: 0.5;
+
 }
 
-.checkbox {
-    display: flex;
-    margin-top: 20px;
-    align-items: center;
+.subLinkText {
+    font-weight: 600;
     font-size: 14px;
-    line-height: 17px;
+    line-height: 24px;
+    text-align: center;
+    color: #000000;
+    margin-top: 20px;
+    opacity: 0.5;
 }
 
 .forgot {
@@ -41,15 +46,18 @@ input[type="checkbox"] {
     color: black;
 }
 
-.email input, .password input {
+.email input {
     min-width: 300px;
 }
 
 @media (max-width: 405px) {
-    .email input, .password input {
+    .email input {
         min-width: 250px;
     }
-    .registerBlock {
+    .forgotBlockContainer {
+        max-width: 250px;
+    }
+    .forgotBlock {
         max-width: 300px;
     }
 }

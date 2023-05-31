@@ -1,10 +1,16 @@
 import React from "react";
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ArgsForgotType } from "../auth.api";
 import { authThunks } from "../auth.slice";
+import s from "./forgot.module.css";
+import TextField from "@mui/material/TextField";
+import { NavLink } from "react-router-dom";
+import Button from "@mui/material/Button";
+import email from "../../../assets/svg/email.jpg";
 
 export const Forgot = () => {
+  const isForgot = useAppSelector((state) => state.auth.isForgot);
   const dispatch = useAppDispatch();
 
   const {
@@ -37,20 +43,65 @@ export const Forgot = () => {
 
   return (
     <>
-      <h2>Forgot your password</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("email", { required: true })} />
-        <p>
-          Enter your email address and we will send you further instructions
-        </p>
-        {errors.email && <span>This field is required</span>}
-        <input type="submit" />
-        <br />
-        <a href="#">Did you rememver your password?</a>
-        <br />
-        <a href="#">Try logging in</a>
-        <br />
-      </form>
+      {!isForgot ? (
+        <div className={s.forgotBlock}>
+          <div className={s.forgotBlockContainer}>
+            <h2>Forgot your password?</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className={s.email}>
+                <TextField
+                  {...register("email", { required: true })}
+                  id="register-email"
+                  label="Email"
+                  variant="standard"
+                />
+              </div>
+              <p className={s.subText}>
+                Enter your email address and we will send you further
+                instructions
+              </p>
+              <Button
+                style={{
+                  width: "100%",
+                  borderRadius: "30px",
+                  fontSize: "16px",
+                  marginTop: "60px",
+                }}
+                type="submit"
+                variant="contained"
+              >
+                Send Instructions
+              </Button>
+              <p className={s.subLinkText}>Did you remember your password?</p>
+              <NavLink to={"/login"}>Try logging in</NavLink>
+            </form>
+          </div>
+        </div>
+      ) : (
+        <div className={s.forgotBlock}>
+          <div className={s.forgotBlockContainer}>
+            <h2>Check email</h2>
+            <img src={email} alt="Email" />
+            <p className={s.subText}>
+              We've sent an Email with instructions to example@mail.com
+            </p>
+            <NavLink to={"/login"}>
+              <Button
+                style={{
+                  width: "100%",
+                  borderRadius: "30px",
+                  fontSize: "16px",
+                  marginTop: "60px",
+                }}
+                type="submit"
+                variant="contained"
+              >
+                Back to login
+              </Button>
+            </NavLink>
+          </div>
+        </div>
+      )}
     </>
   );
 };
