@@ -102,6 +102,10 @@ const slice = createSlice({
         state.isReg = true;
         state.isLoading = false;
       })
+      .addCase(forgot.fulfilled, (state, action) => {
+        state.isForgot = true;
+        state.isLoading = false;
+      })
       .addCase(authMe.fulfilled, (state, action) => {
         state.profile = action.payload.profile;
         state.isLogin = true;

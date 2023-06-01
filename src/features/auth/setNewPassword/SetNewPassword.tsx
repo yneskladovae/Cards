@@ -12,6 +12,7 @@ import Input from "@mui/material/Input";
 import InputAdornment from "@mui/material/InputAdornment";
 import InputLabel from "@mui/material/InputLabel";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import formStyle from "../../../common/style/form.module.css";
 
 const SetNewPassword = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -51,11 +52,11 @@ const SetNewPassword = () => {
     setNewPasswordHandler(data);
 
   return (
-    <div className={s.setNewPassBlock}>
-      <div className={s.setNewPassBlockContainer}>
+    <div className={formStyle.formBlock}>
+      <div className={formStyle.formContainer}>
         <h2>Set new password</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={s.email}>
+          <div>
             <FormControl
               sx={{ m: 1, width: "25ch" }}
               variant="standard"
@@ -66,6 +67,7 @@ const SetNewPassword = () => {
               </InputLabel>
               <Input
                 id="standard-adornment-password"
+                className={formStyle.password}
                 type={showPassword ? "text" : "password"}
                 {...register("password", { required: true })}
                 endAdornment={
@@ -80,24 +82,19 @@ const SetNewPassword = () => {
                   </InputAdornment>
                 }
               />
+              <p className={s.subText}>
+                Create new password and we will send you further instructions to
+                email
+              </p>
+              <Button
+                className={formStyle.button}
+                type="submit"
+                variant="contained"
+              >
+                Create new password
+              </Button>
             </FormControl>
           </div>
-          <p className={s.subText}>
-            Create new password and we will send you further instructions to
-            email
-          </p>
-          <Button
-            style={{
-              width: "100%",
-              borderRadius: "30px",
-              fontSize: "16px",
-              marginTop: "60px",
-            }}
-            type="submit"
-            variant="contained"
-          >
-            Create new password
-          </Button>
         </form>
       </div>
     </div>

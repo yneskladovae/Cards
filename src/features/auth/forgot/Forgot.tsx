@@ -3,11 +3,12 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ArgsForgotType } from "../auth.api";
 import { authThunks } from "../auth.slice";
-import s from "./forgot.module.css";
 import TextField from "@mui/material/TextField";
 import { NavLink } from "react-router-dom";
 import Button from "@mui/material/Button";
 import email from "../../../assets/svg/email.jpg";
+import formStyle from "../../../common/style/form.module.css";
+import s from "./forgot.module.css";
 
 export const Forgot = () => {
   const isForgot = useAppSelector((state) => state.auth.isForgot);
@@ -44,16 +45,19 @@ export const Forgot = () => {
   return (
     <>
       {!isForgot ? (
-        <div className={s.forgotBlock}>
-          <div className={s.forgotBlockContainer}>
+        <div className={formStyle.formBlock}>
+          <div
+            className={`${formStyle.formContainer} ${s.forgotBlockContainer}`}
+          >
             <h2>Forgot your password?</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className={s.email}>
+              <div>
                 <TextField
                   {...register("email", { required: true })}
                   id="register-email"
                   label="Email"
                   variant="standard"
+                  className={formStyle.email}
                 />
               </div>
               <p className={s.subText}>
@@ -61,12 +65,7 @@ export const Forgot = () => {
                 instructions
               </p>
               <Button
-                style={{
-                  width: "100%",
-                  borderRadius: "30px",
-                  fontSize: "16px",
-                  marginTop: "60px",
-                }}
+                className={formStyle.button}
                 type="submit"
                 variant="contained"
               >
@@ -78,8 +77,10 @@ export const Forgot = () => {
           </div>
         </div>
       ) : (
-        <div className={s.forgotBlock}>
-          <div className={s.forgotBlockContainer}>
+        <div className={formStyle.formBlock}>
+          <div
+            className={`${formStyle.formContainer} ${s.forgotBlockContainer}`}
+          >
             <h2>Check email</h2>
             <img src={email} alt="Email" />
             <p className={s.subText}>
@@ -87,12 +88,7 @@ export const Forgot = () => {
             </p>
             <NavLink to={"/login"}>
               <Button
-                style={{
-                  width: "100%",
-                  borderRadius: "30px",
-                  fontSize: "16px",
-                  marginTop: "60px",
-                }}
+                className={formStyle.button}
                 type="submit"
                 variant="contained"
               >
