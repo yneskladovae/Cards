@@ -1,14 +1,17 @@
 import React, { ChangeEvent, useState } from "react";
 import s from "../profile/profile.module.css";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import withoutAvatar from "../../assets/png/unknown.png";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import { Icon } from "@mui/material";
+import { authThunks } from "../auth/auth.slice";
 
 const Profile = () => {
   const profile = useAppSelector((state) => state.auth.profile);
   const [editMode, setEditMode] = useState(false);
   const [newName, setNewName] = useState(profile?.name);
+
+  const dispatch = useAppDispatch();
 
   const editModeHandler = () => {
     setEditMode(!editMode);
@@ -17,6 +20,12 @@ const Profile = () => {
   const newNameChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewName(e.currentTarget.value);
     console.log(e.currentTarget.value);
+  };
+
+  const setNewInfoHandler = () => {
+    const payload = { name: newName };
+    dispatch(authThunks.editProfileInfo(payload));
+    setEditMode(false);
   };
 
   return (
@@ -34,10 +43,9 @@ const Profile = () => {
               <input
                 value={newName}
                 autoFocus
-                onBlur={editModeHandler}
                 onChange={newNameChangeHandler}
               />
-              <button>Save</button>
+              <button onClick={setNewInfoHandler}>Save</button>
             </>
           ) : (
             <>
