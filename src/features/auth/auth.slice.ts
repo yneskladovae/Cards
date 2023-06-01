@@ -90,6 +90,10 @@ const slice = createSlice({
         state.isReg = true;
         state.isLoading = false;
       })
+      .addCase(forgot.fulfilled, (state, action) => {
+        state.isForgot = true;
+        state.isLoading = false;
+      })
       .addCase(authMe.fulfilled, (state, action) => {
         state.profile = action.payload.profile;
         state.isLogin = true;
@@ -101,9 +105,9 @@ const slice = createSlice({
 export const authReducer = slice.reducer;
 export const authAction = slice.actions;
 export const authThunks = {
-  register,
-  login,
-  forgot,
-  setNewPassword,
-  authMe,
+    register,
+    login,
+    forgot,
+    setNewPassword,
+    authMe,
 };
