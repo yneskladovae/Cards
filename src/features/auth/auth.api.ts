@@ -6,10 +6,7 @@ export const authApi = {
     return instance.post<RegisterResponseType>("auth/register", arg);
   },
   login: (arg: ArgLoginType) => {
-    return instance.post<ProfileType>(
-      "auth/login",
-      arg
-    );
+    return instance.post<ProfileType>("auth/login", arg);
   },
   forgot: (args: ArgsForgotType) => {
     return axios.post<ForgotResponsePasswordType>(
@@ -24,9 +21,10 @@ export const authApi = {
     );
   },
   authMe: () => {
-    return instance.post<ProfileType>(
-        "auth/me",
-    );
+    return instance.post<ProfileType>("auth/me");
+  },
+  editProfileInfo: (arg: ArgsEditProfileInfoType) => {
+    return instance.put<EditProfileResponseType>("auth/me", arg);
   },
 };
 
@@ -56,6 +54,9 @@ type SetNewPasswordResponseType = {
 type RegisterResponseType = {
   addedUser: Omit<ProfileType, "token" | "tokenDeathTime">;
 };
+export type EditProfileResponseType = {
+  updatedUser: ProfileType;
+};
 
 export type ArgRegisterType = Omit<ArgLoginType, "rememberMe">;
 export type ArgLoginType = {
@@ -71,4 +72,8 @@ export type ArgsForgotType = {
 export type ArgsSetNewPasswordType = {
   password: string;
   resetPasswordToken: string | undefined;
+};
+export type ArgsEditProfileInfoType = {
+  name?: string;
+  avatar?: string;
 };

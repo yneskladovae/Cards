@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ArgLoginType,
   ArgRegisterType,
+  ArgsEditProfileInfoType,
   ArgsForgotType,
   ArgsSetNewPasswordType,
   authApi,
@@ -53,12 +54,23 @@ const setNewPassword = createAppAsyncThunk(
   }
 );
 
+const editProfileInfo = createAppAsyncThunk(
+  "auth/editProfileInfo",
+  async (arg: ArgsEditProfileInfoType, thunkAPI) => {
+    try {
+      const res = await authApi.editProfileInfo(arg);
+      return { profile: res.data };
+    } catch (e) {
+      return thunkAPI.rejectWithValue(null);
+    }
+  }
+);
+
 const authMe = createAppAsyncThunk<{ profile: ProfileType }, void>(
   "auth/authMe",
   async (arg, thunkAPI) => {
     try {
       const res = await authApi.authMe();
-      // thunkAPI.dispatch(authAction.setIsLogin({ isLogin: true }));
       return { profile: res.data };
     } catch (e) {
       return thunkAPI.rejectWithValue(null);
@@ -98,16 +110,19 @@ const slice = createSlice({
         state.profile = action.payload.profile;
         state.isLogin = true;
         state.isLoading = false;
+      })
+      .addCase(editProfileInfo.fulfilled, (state, action) => {
+        state.profile = action.payload.profile.updatedUser;
       });
   },
 });
 
 export const authReducer = slice.reducer;
-export const authAction = slice.actions;
 export const authThunks = {
-    register,
-    login,
-    forgot,
-    setNewPassword,
-    authMe,
+  register,
+  login,
+  forgot,
+  setNewPassword,
+  authMe,
+  editProfileInfo,
 };
