@@ -1,21 +1,27 @@
-import React from 'react';
+import React from "react";
 import s from "../profile/profile.module.css";
-import {useAppSelector} from "../../app/hooks";
-
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { authThunks } from "../auth/auth.slice";
 
 const Profile = () => {
+  const profile = useAppSelector((state) => state.auth.profile);
+  const dispatch = useAppDispatch();
 
-    const profile = useAppSelector((state) => state.auth.profile)
+  if (!profile) {
+    dispatch(authThunks.authMe());
+  }
 
-    return (
-        <div className={s.profileBlock}>
-            <div className={s.profileBlockContainer}>
-                <h2>Personal Information</h2>
-                <img src="" alt=""/>
-                <div>{profile?.email}</div>
-            </div>
-        </div>
-    );
+  return (
+    <div className={s.profileBlock}>
+      <div className={s.profileBlockContainer}>
+        <h2>Personal Information</h2>
+        <p>{profile?.name}</p>
+        <img src={profile?.avatar} alt="avatar" />
+        <div>{profile?.email}</div>
+        <button>Log out</button>
+      </div>
+    </div>
+  );
 };
 
 export default Profile;

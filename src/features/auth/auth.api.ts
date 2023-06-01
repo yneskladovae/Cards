@@ -23,6 +23,11 @@ export const authApi = {
       args
     );
   },
+  authMe: () => {
+    return instance.post<ProfileType>(
+        "auth/me",
+    );
+  },
 };
 
 export type ProfileType = {

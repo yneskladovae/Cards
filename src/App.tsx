@@ -12,9 +12,11 @@ import { NavLink, Route, Routes } from "react-router-dom";
 import { Forgot } from "features/auth/forgot/Forgot";
 import SetNewPassword from "features/auth/setNewPassword/SetNewPassword";
 import incubatorLogo from "assets/svg/incubatorLogo.svg";
+import Profile from "./features/profile/Profile";
 
 function App() {
-  const isLoading = useAppSelector((state) => state.app.isLoading);
+  const isLogin = useAppSelector((state) => state.auth.isLogin);
+  const profile = useAppSelector((state) => state.auth.profile);
 
   const dispatch = useAppDispatch();
 
@@ -35,26 +37,31 @@ function App() {
           }}
         >
           <img className={"logo"} src={incubatorLogo} alt={"logo"} />
-          <Button
-            style={{
-              width: "113px",
-              borderRadius: "30px",
-              fontSize: "16px",
-              textAlign: "center",
-            }}
-            type="submit"
-            variant="contained"
-          >
-            <NavLink className={"login"} to={"/login"}>
-              Sign In
-            </NavLink>
-          </Button>
+          {!isLogin ? (
+            <Button
+              style={{
+                width: "113px",
+                borderRadius: "30px",
+                fontSize: "16px",
+                textAlign: "center",
+              }}
+              type="submit"
+              variant="contained"
+            >
+              <NavLink className={"login"} to={"/login"}>
+                Sign In
+              </NavLink>
+            </Button>
+          ) : (
+            <div className={"profile"}>{profile?.name}</div>
+          )}
         </Toolbar>
       </AppBar>
       <Routes>
         <Route path={"register"} element={<Register />} />
         <Route path={"login"} element={<Login />} />
         <Route path={"forgot"} element={<Forgot />} />
+        <Route path={"profile"} element={<Profile />} />
         <Route path={"set-new-password/:token"} element={<SetNewPassword />} />
         <Route path={"*"} element={<Login />} />
       </Routes>

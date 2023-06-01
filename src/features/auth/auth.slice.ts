@@ -52,11 +52,24 @@ const setNewPassword = createAppAsyncThunk(
   }
 );
 
+const authMe = createAppAsyncThunk<{ profile: ProfileType }, void>(
+  "auth/authMe",
+  async (arg, thunkAPI) => {
+    try {
+      const res = await authApi.authMe();
+      return { profile: res.data };
+    } catch (e) {
+      return thunkAPI.rejectWithValue(null);
+    }
+  }
+);
+
 const slice = createSlice({
   name: "auth",
   initialState: {
     profile: null as ProfileType | null,
     isLoading: false,
+    isLogin: false,
     error: "",
     isReg: false,
     isForgot: false,
@@ -89,18 +102,18 @@ const slice = createSlice({
         state.isReg = false;
         state.error = "Some error";
       })
-
-      .addCase(forgot.fulfilled, (state, action) => {
-        state.isForgot = true;
+      .addCase(authMe.fulfilled, (state, action) => {
+        state.profile = action.payload.profile;
+        state.isLogin = true;
         state.isLoading = false;
       })
-      .addCase(forgot.pending, (state, action) => {
-        state.isForgot = false;
+      .addCase(authMe.pending, (state, action) => {
+        state.isLogin = false;
         state.isLoading = true;
       })
-      .addCase(forgot.rejected, (state, action) => {
+      .addCase(authMe.rejected, (state, action) => {
         state.isLoading = false;
-        state.isForgot = false;
+        state.isLogin = false;
       });
   },
 });
@@ -112,4 +125,5 @@ export const authThunks = {
   login,
   forgot,
   setNewPassword,
+  authMe,
 };
