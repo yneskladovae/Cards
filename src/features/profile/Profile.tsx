@@ -28,6 +28,10 @@ const Profile = () => {
     setEditMode(false);
   };
 
+  const logOutHandler = () => {
+    dispatch(authThunks.logOut());
+  };
+
   return (
     <div className={s.profileBlock}>
       <div className={s.profileBlockContainer}>
@@ -60,7 +64,7 @@ const Profile = () => {
         </div>
 
         <div>{profile?.email}</div>
-        <button>Log out</button>
+        <button onClick={logOutHandler}>Log out</button>
       </div>
     </div>
   );

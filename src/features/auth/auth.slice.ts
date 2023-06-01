@@ -66,6 +66,10 @@ const editProfileInfo = createAppAsyncThunk(
   }
 );
 
+const logOut = createAppAsyncThunk("auth/logOut", async () => {
+  const res = await authApi.logOut();
+});
+
 const authMe = createAppAsyncThunk<{ profile: ProfileType }, void>(
   "auth/authMe",
   async (arg, thunkAPI) => {
@@ -96,6 +100,7 @@ const slice = createSlice({
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.profile = action.payload.profile;
+        state.isLogin = true;
         state.isLoading = false;
       })
       .addCase(register.fulfilled, (state, action) => {
@@ -113,6 +118,10 @@ const slice = createSlice({
       })
       .addCase(editProfileInfo.fulfilled, (state, action) => {
         state.profile = action.payload.profile.updatedUser;
+      })
+      .addCase(logOut.fulfilled, (state) => {
+        state.profile = null;
+        state.isLogin = false;
       });
   },
 });
@@ -125,4 +134,5 @@ export const authThunks = {
   setNewPassword,
   authMe,
   editProfileInfo,
+  logOut,
 };

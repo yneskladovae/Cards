@@ -26,6 +26,9 @@ export const authApi = {
   editProfileInfo: (arg: ArgsEditProfileInfoType) => {
     return instance.put<EditProfileResponseType>("auth/me", arg);
   },
+  logOut: () => {
+    return instance.delete<LogOutResponseType>("auth/me");
+  },
 };
 
 export type ProfileType = {
@@ -56,6 +59,10 @@ type RegisterResponseType = {
 };
 export type EditProfileResponseType = {
   updatedUser: ProfileType;
+};
+export type LogOutResponseType = {
+  info: string;
+  error: string;
 };
 
 export type ArgRegisterType = Omit<ArgLoginType, "rememberMe">;
