@@ -4,16 +4,14 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth.slice";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ArgLoginType } from "../auth.api";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import { LinearProgress } from "@mui/material";
 
 const Login = () => {
   const isLoading = useAppSelector((state) => state.auth.isLoading);
-  const error = useAppSelector((state) => state.auth.error);
+  const isLogin = useAppSelector((state) => state.auth.isLogin);
   const dispatch = useAppDispatch();
 
   const {
@@ -36,6 +34,7 @@ const Login = () => {
     );
   };
   const onSubmit: SubmitHandler<ArgLoginType> = (data) => loginHandler(data);
+  if (isLogin) return <Navigate to={"/"} />;
 
   return (
     <>

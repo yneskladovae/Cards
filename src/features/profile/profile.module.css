@@ -16,3 +16,17 @@
     max-width: 300px;
     margin: 0 auto;
 }
+
+.avatar {
+    max-width: 150px;
+}
+
+.name {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.edit {
+    cursor: pointer;
+}

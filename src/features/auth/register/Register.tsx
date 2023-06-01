@@ -16,7 +16,6 @@ type Inputs = {
 export const Register = () => {
   const isLoading = useAppSelector((state) => state.auth.isLoading);
   const isReg = useAppSelector((state) => state.auth.isReg);
-  const error = useAppSelector((state) => state.auth.error);
   const dispatch = useAppDispatch();
 
   const {

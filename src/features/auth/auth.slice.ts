@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ArgLoginType,
   ArgRegisterType,
@@ -8,6 +8,7 @@ import {
   ProfileType,
 } from "features/auth/auth.api";
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk";
+import { appActions } from "../../app/app.slice";
 
 const forgot = createAsyncThunk(
   "auth/forgot",
@@ -38,6 +39,7 @@ const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
   async (arg: ArgLoginType, thunkAPI) => {
     try {
       const res = await authApi.login(arg);
+      thunkAPI.dispatch(authAction.setIsLogin({ isLogin: true }));
       return { profile: res.data };
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -57,9 +59,14 @@ const authMe = createAppAsyncThunk<{ profile: ProfileType }, void>(
   async (arg, thunkAPI) => {
     try {
       const res = await authApi.authMe();
+      thunkAPI.dispatch(authAction.setIsLogin({ isLogin: true }));
       return { profile: res.data };
     } catch (e) {
       return thunkAPI.rejectWithValue(null);
+    } finally {
+      thunkAPI.dispatch(
+        appActions.setIsInitialization({ isAppInitialized: true })
+      );
     }
   }
 );
@@ -70,11 +77,14 @@ const slice = createSlice({
     profile: null as ProfileType | null,
     isLoading: false,
     isLogin: false,
-    error: "",
     isReg: false,
     isForgot: false,
   },
-  reducers: {},
+  reducers: {
+    setIsLogin(state, action: PayloadAction<{ isLogin: boolean }>) {
+      state.isLogin = action.payload.isLogin;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
@@ -86,7 +96,6 @@ const slice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = "Some error";
       })
 
       .addCase(register.fulfilled, (state, action) => {
@@ -100,26 +109,16 @@ const slice = createSlice({
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
         state.isReg = false;
-        state.error = "Some error";
       })
       .addCase(authMe.fulfilled, (state, action) => {
         state.profile = action.payload.profile;
-        state.isLogin = true;
         state.isLoading = false;
-      })
-      .addCase(authMe.pending, (state, action) => {
-        state.isLogin = false;
-        state.isLoading = true;
-      })
-      .addCase(authMe.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isLogin = false;
       });
   },
 });
 
 export const authReducer = slice.reducer;
-export const authSlice = slice.actions;
+export const authAction = slice.actions;
 export const authThunks = {
   register,
   login,

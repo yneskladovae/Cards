@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { appActions } from "app/app.slice";
 import { Register } from "features/auth/register/Register";
 import Login from "features/auth/login/Login";
 import Box from "@mui/material/Box";
@@ -13,17 +12,19 @@ import { Forgot } from "features/auth/forgot/Forgot";
 import SetNewPassword from "features/auth/setNewPassword/SetNewPassword";
 import incubatorLogo from "assets/svg/incubatorLogo.svg";
 import Profile from "./features/profile/Profile";
+import { authThunks } from "./features/auth/auth.slice";
 
 function App() {
   const isLogin = useAppSelector((state) => state.auth.isLogin);
   const profile = useAppSelector((state) => state.auth.profile);
+  const isAppInitialized = useAppSelector(
+    (state) => state.app.isAppInitialized
+  );
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(appActions.setIsLoading({ isLoading: false }));
-    }, 3000);
+    dispatch(authThunks.authMe());
   }, [dispatch]);
 
   return (
@@ -48,7 +49,7 @@ function App() {
               type="submit"
               variant="contained"
             >
-              <NavLink className={"login"} to={"/login"}>
+              <NavLink className={"login"} to={"login"}>
                 Sign In
               </NavLink>
             </Button>
@@ -58,12 +59,13 @@ function App() {
         </Toolbar>
       </AppBar>
       <Routes>
+        <Route path={"/"} element={<div>CARDS</div>} />
         <Route path={"register"} element={<Register />} />
         <Route path={"login"} element={<Login />} />
         <Route path={"forgot"} element={<Forgot />} />
         <Route path={"profile"} element={<Profile />} />
         <Route path={"set-new-password/:token"} element={<SetNewPassword />} />
-        <Route path={"*"} element={<Login />} />
+        <Route path={"*"} element={<div>XZ</div>} />
       </Routes>
     </Box>
   );
