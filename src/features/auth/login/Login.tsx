@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Navigate, NavLink } from "react-router-dom";
 import { LinearProgress } from "@mui/material";
+import formStyle from "../../../common/style/form.module.css";
 
 const Login = () => {
   const isLoading = useAppSelector((state) => state.auth.isLoading);
@@ -34,21 +35,22 @@ const Login = () => {
     );
   };
   const onSubmit: SubmitHandler<ArgLoginType> = (data) => loginHandler(data);
-  if (isLogin) return <Navigate to={"/"} />;
+  // if (isLogin) return <Navigate to={"/"} />;
 
   return (
     <>
       {isLoading && <LinearProgress />}
-      <div className={s.registerBlock}>
-        <div className={s.registerBlockContainer}>
+      <div className={formStyle.formBlock}>
+        <div className={formStyle.formContainer}>
           <h2>Sign in</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className={s.email}>
+            <div>
               <TextField
                 {...register("email", { required: true })}
                 id="register-email"
                 label="Email"
                 variant="standard"
+                className={formStyle.email}
               />
             </div>
             <div className={s.password}>
@@ -58,10 +60,12 @@ const Login = () => {
                 label="Password"
                 variant="standard"
                 type={"password"}
+                className={formStyle.password}
               />
             </div>
             <label className={s.checkbox}>
               <input
+                className={formStyle.checkbox}
                 type={"checkbox"}
                 {...register("rememberMe", { required: false })}
               />
@@ -74,12 +78,7 @@ const Login = () => {
               <span>This field is required</span>
             )}
             <Button
-              style={{
-                width: "100%",
-                borderRadius: "30px",
-                fontSize: "16px",
-                marginTop: "60px",
-              }}
+              className={formStyle.button}
               type="submit"
               variant="contained"
               disabled={isLoading}
