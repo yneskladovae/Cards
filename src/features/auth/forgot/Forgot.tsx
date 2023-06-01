@@ -78,7 +78,9 @@ export const Forgot = () => {
         </div>
       ) : (
         <div className={formStyle.formBlock}>
-          <div className={formStyle.formContainer}>
+          <div
+            className={`${formStyle.formContainer} ${s.forgotBlockContainer}`}
+          >
             <h2>Check email</h2>
             <img src={email} alt="Email" />
             <p className={s.subText}>
