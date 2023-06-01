@@ -39,7 +39,6 @@ const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>(
   async (arg: ArgLoginType, thunkAPI) => {
     try {
       const res = await authApi.login(arg);
-      thunkAPI.dispatch(authAction.setIsLogin({ isLogin: true }));
       return { profile: res.data };
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -59,7 +58,7 @@ const authMe = createAppAsyncThunk<{ profile: ProfileType }, void>(
   async (arg, thunkAPI) => {
     try {
       const res = await authApi.authMe();
-      thunkAPI.dispatch(authAction.setIsLogin({ isLogin: true }));
+      // thunkAPI.dispatch(authAction.setIsLogin({ isLogin: true }));
       return { profile: res.data };
     } catch (e) {
       return thunkAPI.rejectWithValue(null);
@@ -80,38 +79,20 @@ const slice = createSlice({
     isReg: false,
     isForgot: false,
   },
-  reducers: {
-    setIsLogin(state, action: PayloadAction<{ isLogin: boolean }>) {
-      state.isLogin = action.payload.isLogin;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.profile = action.payload.profile;
         state.isLoading = false;
       })
-      .addCase(login.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(login.rejected, (state, action) => {
-        state.isLoading = false;
-      })
-
       .addCase(register.fulfilled, (state, action) => {
         state.isReg = true;
         state.isLoading = false;
       })
-      .addCase(register.pending, (state, action) => {
-        state.isReg = false;
-        state.isLoading = true;
-      })
-      .addCase(register.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isReg = false;
-      })
       .addCase(authMe.fulfilled, (state, action) => {
         state.profile = action.payload.profile;
+        state.isLogin = true;
         state.isLoading = false;
       });
   },
