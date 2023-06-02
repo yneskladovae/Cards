@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import s from "../profile/profile.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import withoutAvatar from "../../assets/png/unknown.png";
@@ -8,10 +8,18 @@ import { authThunks } from "../auth/auth.slice";
 
 const Profile = () => {
   const profile = useAppSelector((state) => state.auth.profile);
-  const [editMode, setEditMode] = useState(false);
-  const [newName, setNewName] = useState(profile?.name);
-
   const dispatch = useAppDispatch();
+  const [editMode, setEditMode] = useState(false);
+  const [newName, setNewName] = useState(() => {
+    const storedName = localStorage.getItem("profileName");
+    return storedName ? storedName : profile?.name;
+  });
+
+  useEffect(() => {
+    if (newName) return localStorage.setItem("profileName", newName);
+  }, [newName]);
+
+  console.log(newName);
 
   const editModeHandler = () => {
     setEditMode(!editMode);
